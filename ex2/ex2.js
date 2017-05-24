@@ -21,7 +21,29 @@ function output(text) {
 
 function getFile(file) {
 	// what do we do here?
+
 }
 
-// request all files at once in "parallel"
-// ???
+var th1 = getFile("file1")
+var th2 = getFile("file2")
+var th3 = getFile("file3")
+
+th1(function(text1){
+	output(text1)
+	th2(function(text2){
+		output(text2)
+		th1(function(text1){
+			output(text1)
+			output("Complete!")
+		})
+	})
+})
+
+
+
+
+
+
+
+
+
