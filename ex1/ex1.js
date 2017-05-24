@@ -38,6 +38,8 @@ function processResponses(fileName,contents){
 			return;
 		}
 	}
+
+	console.log("Complete!")
 }
 
 // **************************************
