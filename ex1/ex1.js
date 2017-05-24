@@ -17,20 +17,27 @@ function output(text) {
 	console.log(text);
 }
 
-var responses = []
+var responses = {}
 var processNext = 1
 
-function processResponses(){
-	/*for(var i = processedThru; i <= responses.length; i++){
-		if(responses.f)
-	}*/
-	responses.forEach(function(file){
-		if (file.fileName.substring(file.fileName.length - 1) == processNext){
-			console.log(file.responseText)
-			processNext++
-		}
-	})
+function processResponses(fileName,contents){
 
+	if(!(fileName in responses)){
+		responses[fileName] = contents
+	}
+	var fileNames = ["file1","file2","file3"]
+
+	for (var i = 0; i < fileNames.length; i++) {
+		if (fileNames[i] in responses){
+			if(typeof responses[fileNames[i]] == "string"){
+				output(responses[fileNames[i]])
+				responses[fileNames[i]] = false
+			}
+		}
+		else{
+			return;
+		}
+	}
 }
 
 // **************************************
@@ -39,10 +46,7 @@ function processResponses(){
 function getFile(file) {
 	fakeAjax(file,function(text){
 		// what do we do here?
-		responses.push({fileName:file,responseText:text})
-		//console.log(newFileObject)
-		//responses[file.substring(file.length - 1) - 1].value = text
-		processResponses()
+		processResponses(file,text)
 		
 	});
 }
@@ -52,7 +56,3 @@ getFile("file1");
 getFile("file2");
 getFile("file3");
 
-setTimeout(function(){
-//		processResponses()
-console.log(responses)
-	},6000)
